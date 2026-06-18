@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eStrategoS – Consultoria Comercial B2B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --orange: #F97316;
+      --orange-dim: rgba(249,115,22,0.12);
+      --orange-border: rgba(249,115,22,0.3);
+      --bg: #0A0A0A;
+      --bg-card: #141414;
+      --bg-card2: #1A1A1A;
+      --text: #F5F5F5;
+      --text-muted: #888;
+      --radius: 10px;
+      --max: 1120px;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--orange); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--orange);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      font-size: 0.875rem;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.88 !important; color: #fff !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(249,115,22,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+      color: var(--orange);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 40px;
+      line-height: 1.75;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 32px;
+      border-radius: var(--radius);
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 0 0 rgba(249,115,22,0);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(249,115,22,0.35);
+    }
+    .btn-secondary {
+      display: inline-block;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 16px 24px;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+    .hero-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    /* Hero stats card */
+    .hero-visual {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .stat-item { }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: -1px;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .pipeline-bar { margin-top: 8px; }
+    .pipeline-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .bar-track {
+      background: rgba(255,255,255,0.06);
+      border-radius: 100px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--orange);
+      transition: width 1s ease;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 96px 24px; }
+    .container { max-width: var(--max); margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    .section-header { margin-bottom: 56px; }
+
+    /* ─── PROBLEMA ─── */
+    .problema { background: var(--bg-card); }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .pain-card {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .pain-icon {
+      font-size: 1.75rem;
+      margin-bottom: 16px;
+    }
+    .pain-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .pain-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── SOLUÇÃO ─── */
+    .pilares-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .pilar-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .pilar-card:hover { border-color: var(--orange-border); }
+    .pilar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--orange);
+      border-radius: 0;
+    }
+    .pilar-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .pilar-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pilar-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── DEPOIMENTOS ─── */
+    .depoimentos { background: var(--bg-card); }
+    .depo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .depo-card {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .depo-stars {
+      color: var(--orange);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .depo-card blockquote {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+    .depo-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .depo-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--orange);
+    }
+    .depo-name { font-weight: 600; font-size: 0.9rem; }
+    .depo-role { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ─── SERVIÇOS ─── */
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .servico-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+    }
+    .servico-card.destaque {
+      border-color: var(--orange-border);
+      background: linear-gradient(135deg, rgba(249,115,22,0.07) 0%, var(--bg-card) 60%);
+    }
+    .servico-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+      padding: 4px 10px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .servico-card h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .servico-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .servico-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .servico-lista li {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      padding-left: 20px;
+      position: relative;
+    }
+    .servico-lista li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    /* ─── CTA FINAL ─── */
+    .cta-final {
+      background: var(--bg-card);
+      text-align: center;
+    }
+    .cta-box {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta-box .section-title { margin-bottom: 16px; }
+    .cta-box .section-sub { margin: 0 auto 40px; }
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .form-input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input::placeholder { color: var(--text-muted); }
+    .form-input:focus { border-color: var(--orange); }
+    .form-btn {
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .form-btn:hover { opacity: 0.88; }
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 48px 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-copy {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .pain-grid, .pilares-grid, .depo-grid { grid-template-columns: 1fr; }
+      .servicos-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      .form-row { flex-direction: column; }
+      .form-btn { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span>e</span>StrategoS</div>
+    <ul class="nav-links">
+      <li><a href="#metodologia">Metodologia</a></li>
+      <li><a href="#depoimentos">Resultados</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#diagnostico" class="nav-cta">Diagnóstico grátis</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">Consultoria Comercial B2B</div>
+      <h1>Escale sua receita <em>sem</em> escalar seu time</h1>
+      <p>Estruturamos o pipeline, definimos o ICP e criamos cadências de venda que geram previsibilidade — sem precisar contratar mais gente.</p>
+      <div class="hero-actions">
+        <a href="#diagnostico" class="btn-primary">Quero meu diagnóstico grátis</a>
+        <a href="#metodologia" class="btn-secondary">Ver metodologia →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">3×</div>
+          <div class="stat-label">crescimento médio de pipeline</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">87%</div>
+          <div class="stat-label">dos clientes renovam o contrato</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">90d</div>
+          <div class="stat-label">para ver os primeiros resultados</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">+18</div>
+          <div class="stat-label">anos de experiência B2B</div>
+        </div>
+      </div>
+      <div class="pipeline-bar">
+        <div class="pipeline-label">
+          <span>Pipeline estruturado</span>
+          <span style="color:var(--orange)">78%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+      </div>
+      <div class="pipeline-bar" style="margin-top:12px">
+        <div class="pipeline-label">
+          <span>Taxa de conversão média</span>
+          <span style="color:var(--orange)">62%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:62%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEMA ─── -->
+<section class="problema">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">O problema</div>
+      <h2 class="section-title">Você reconhece algum desses cenários?</h2>
+      <p class="section-sub">A maioria dos times B2B cresce em headcount mas não em resultado. O gargalo raramente é gente — é processo.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <h3>Pipeline sem previsibilidade</h3>
+        <p>Você não sabe quantas oportunidades vai fechar no mês que vem. As metas dependem de sorte, não de método.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🎯</div>
+        <h3>ICP mal definido</h3>
+        <p>Seu time fala com todo tipo de lead mas fecha pouco. O problema não é o produto — é para quem você está vendendo.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🔁</div>
+        <h3>Cadências que não convertem</h3>
+        <p>E-mails sem resposta, follow-ups sem critério, ciclos de venda longos demais. A abordagem precisa de estrutura.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOLUÇÃO ─── -->
+<section id="metodologia">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Nossa metodologia</div>
+      <h2 class="section-title">Três pilares que estruturam o crescimento</h2>
+      <p class="section-sub">Cada engajamento começa com diagnóstico e termina com um sistema comercial rodando de forma autônoma.</p>
+    </div>
+    <div class="pilares-grid">
+      <div class="pilar-card">
+        <div class="pilar-num">Pilar 01</div>
+        <h3>Estruturação de Pipeline</h3>
+        <p>Mapeamos o funil atual, eliminamos os gargalos e desenhamos um pipeline com etapas claras, critérios de avanço e métricas de saída.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">Pilar 02</div>
+        <h3>Definição de ICP</h3>
+        <p>Identificamos o perfil de cliente que gera mais receita com menos esforço. Concentramos energia onde a conversão é maior e o ticket é melhor.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">Pilar 03</div>
+        <h3>Cadências de Venda</h3>
+        <p>Criamos sequências de prospecção testadas e otimizadas para o seu mercado. Nada de improviso — cada touchpoint tem propósito e timing definidos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DEPOIMENTOS ─── -->
+<section class="depoimentos" id="depoimentos">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Resultados reais</div>
+      <h2 class="section-title">O que os clientes dizem</h2>
+    </div>
+    <div class="depo-grid">
+      <div class="depo-card">
+        <div class="depo-stars">★★★★★</div>
+        <blockquote>"Em 60 dias já tínhamos um pipeline três vezes maior e com qualidade de oportunidade muito superior. A Lis trouxe método onde só havia tentativa e erro."</blockquote>
+        <div class="depo-author">
+          <div class="depo-avatar">RC</div>
+          <div>
+            <div class="depo-name">Rafael Costa</div>
+            <div class="depo-role">CEO · TechLog Soluções</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="depo-stars">★★★★★</div>
+        <blockquote>"Finalmente entendemos para quem de verdade devemos vender. A definição de ICP mudou completamente nossa abordagem e reduziu o ciclo de venda pela metade."</blockquote>
+        <div class="depo-author">
+          <div class="depo-avatar">AM</div>
+          <div>
+            <div class="depo-name">Andrea Mello</div>
+            <div class="depo-role">Diretora Comercial · Grupo Meridiano</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="depo-stars">★★★★★</div>
+        <blockquote>"Contratamos esperando uma consultoria. Recebemos uma transformação completa na forma como nosso time pensa e executa vendas. ROI em menos de 90 dias."</blockquote>
+        <div class="depo-author">
+          <div class="depo-avatar">PF</div>
+          <div>
+            <div class="depo-name">Paulo Ferreira</div>
+            <div class="depo-role">Sócio · Prime Risk Gestão</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVIÇOS ─── -->
+<section id="servicos">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-label">Serviços</div>
+      <h2 class="section-title">Escolha o modelo de engajamento</h2>
+      <p class="section-sub" style="margin: 0 auto;">Dois formatos pensados para estágios diferentes de maturidade comercial.</p>
+    </div>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <div class="servico-tag">Diagnóstico</div>
+        <h3>Sprint Comercial</h3>
+        <p>Engajamento pontual de 30 dias para mapear, diagnosticar e entregar um plano de ação estruturado para o time executar.</p>
+        <ul class="servico-lista">
+          <li>Auditoria do pipeline atual</li>
+          <li>Mapeamento de ICP e personas</li>
+          <li>Análise de cadências existentes</li>
+          <li>Plano de ação priorizado</li>
+          <li>Sessão de handover com o time</li>
+        </ul>
+      </div>
+      <div class="servico-card destaque">
+        <div class="servico-tag">Recomendado</div>
+        <h3>Consultoria Continuada</h3>
+        <p>Acompanhamento mensal para implementar, ajustar e escalar a estrutura comercial ao longo do tempo, com você.</p>
+        <ul class="servico-lista">
+          <li>Tudo do Sprint Comercial</li>
+          <li>Implementação das cadências</li>
+          <li>Rituais semanais de pipeline review</li>
+          <li>Treinamento do time de vendas</li>
+          <li>Ajustes contínuos por dados</li>
+          <li>Acesso direto via WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA FINAL ─── -->
+<section class="cta-final" id="diagnostico">
+  <div class="container">
+    <div class="cta-box">
+      <div class="section-label">Comece agora</div>
+      <h2 class="section-title">Diagnóstico gratuito em 30 minutos</h2>
+      <p class="section-sub">Sem compromisso. Você sai da conversa com pelo menos uma alavanca clara para melhorar o pipeline.</p>
+      <form onsubmit="handleForm(event)">
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Seu nome" required />
+          <input type="email" class="form-input" placeholder="E-mail corporativo" required />
+        </div>
+        <div class="form-row" style="margin-top:12px">
+          <input type="text" class="form-input" placeholder="Empresa" required />
+          <button type="submit" class="form-btn">Quero meu diagnóstico →</button>
+        </div>
+      </form>
+      <p class="form-note">Sem spam. Seus dados não são compartilhados com terceiros.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo" style="margin-bottom:6px"><span>e</span>StrategoS</div>
+      <p class="footer-copy">© 2026 eStrategoS. Consultoria Comercial B2B.<br>Joinville, SC — Brasil</p>
+    </div>
+    <div class="footer-links">
+      <a href="#inicio">Início</a>
+      <a href="#metodologia">Metodologia</a>
+      <a href="#depoimentos">Resultados</a>
+      <a href="#diagnostico">Contato</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-btn');
+    btn.textContent = '✓ Solicitação enviada!';
+    btn.style.background = '#16a34a';
+    setTimeout(() => {
+      btn.textContent = 'Quero meu diagnóstico →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
